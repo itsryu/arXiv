@@ -2,12 +2,12 @@ package br.com.puc.common.utils;
 
 public final class AnsiColors {
 
-    private AnsiColors() {} // Construtor privado para impedir instanciação
+    private AnsiColors() {}
 
     // estilo
     public static final String RESET = "\u001B[0m";
     public static final String BOLD = "\u001B[1m";
-    public static final String FAINT = "\u001B[2m"; // Alternativa para cinza/suave
+    public static final String FAINT = "\u001B[2m";
 
     // texto
     public static final String BLACK = "\u001B[30m";

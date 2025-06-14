@@ -20,7 +20,7 @@ public class ServerA {
     public ServerA(int port) {
         this.port = port;
         this.clientHandlerPool = Executors.newCachedThreadPool();
-        this.workerRequestPool = Executors.newFixedThreadPool(2); // Para Servidores B e C
+        this.workerRequestPool = Executors.newFixedThreadPool(2);
     }
 
     public void start() {
@@ -44,12 +44,10 @@ public class ServerA {
             SearchRequest request = JsonUtils.fromJson(requestLine, SearchRequest.class);
             System.out.printf("Recebida busca por: '%s'\n", request.query());
 
-            // Dispara requisições para os servidores B e C em paralelo
             Future<SearchResponse> futureB = workerRequestPool.submit(() -> forwardToWorker("localhost", 8082, request));
             Future<SearchResponse> futureC = workerRequestPool.submit(() -> forwardToWorker("localhost", 8083, request));
 
             List<Article> allResults = new ArrayList<>();
-            // Agrega os resultados
             allResults.addAll(futureB.get().results());
             allResults.addAll(futureC.get().results());
 
