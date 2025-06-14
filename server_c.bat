@@ -1,0 +1,3 @@
+@echo off
+echo Iniciando Servidor C...
+mvn exec:java -Dexec.mainClass="br.com.puc.ServerC"

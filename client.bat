@@ -1,0 +1,3 @@
+@echo off
+echo Iniciando Cliente...
+mvn exec:java -Dexec.mainClass="br.com.puc.ClientApp"
