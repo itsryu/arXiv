@@ -1,7 +1,6 @@
-package br.com.puc.common.utils;
+package br.com.arxiv.common.utils;
 
 public final class AnsiColors {
-
     private AnsiColors() {}
 
     // estilo

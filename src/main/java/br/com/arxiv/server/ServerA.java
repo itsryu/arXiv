@@ -1,9 +1,9 @@
-package br.com.puc.server;
+package br.com.arxiv.server;
 
-import br.com.puc.common.model.Article;
-import br.com.puc.common.model.SearchRequest;
-import br.com.puc.common.model.SearchResponse;
-import br.com.puc.common.utils.JsonUtils;
+import br.com.arxiv.common.model.Article;
+import br.com.arxiv.common.model.SearchRequest;
+import br.com.arxiv.common.model.SearchResponse;
+import br.com.arxiv.common.utils.JsonUtils;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class ServerA {
-
     private final int port;
     private final ExecutorService clientHandlerPool;
     private final ExecutorService workerRequestPool;
@@ -67,7 +66,6 @@ public class ServerA {
             out.println(JsonUtils.toJson(request));
             String responseJson = in.readLine();
             return JsonUtils.fromJson(responseJson, SearchResponse.class);
-
         } catch (IOException e) {
             System.err.printf("Não foi possível conectar ao worker %s:%d. Motivo: %s\n", host, workerPort, e.getMessage());
             return new SearchResponse(new ArrayList<>()); // Tolerância a falhas

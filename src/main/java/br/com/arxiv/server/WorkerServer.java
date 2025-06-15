@@ -1,9 +1,9 @@
-package br.com.puc.server;
+package br.com.arxiv.server;
 
-import br.com.puc.common.model.SearchRequest;
-import br.com.puc.common.model.SearchResponse;
-import br.com.puc.common.utils.JsonUtils;
-import br.com.puc.server.search.SearchService;
+import br.com.arxiv.common.model.SearchRequest;
+import br.com.arxiv.common.model.SearchResponse;
+import br.com.arxiv.common.utils.JsonUtils;
+import br.com.arxiv.server.search.SearchService;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,7 +11,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WorkerServer {
-
     private final int port;
     private final SearchService searchService;
     private final ExecutorService threadPool;

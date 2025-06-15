@@ -1,6 +1,6 @@
-package br.com.puc.server.search;
+package br.com.arxiv.server.search;
 
-import br.com.puc.common.model.Article;
+import br.com.arxiv.common.model.Article;
 import java.util.List;
 
 public interface SearchService {

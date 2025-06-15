@@ -1,7 +1,7 @@
-package br.com.puc;
+package br.com.arxiv;
 
-import br.com.puc.server.WorkerServer;
-import br.com.puc.server.search.FileSearchService;
+import br.com.arxiv.server.WorkerServer;
+import br.com.arxiv.server.search.FileSearchService;
 
 public class ServerB {
     public static void main(String[] args) {

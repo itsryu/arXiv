@@ -1,3 +1,3 @@
 @echo off
 echo Iniciando Servidor A...
-mvn exec:java -Dexec.mainClass="br.com.puc.ServerA"
+mvn exec:java -Dexec.mainClass="br.com.arxiv.ServerA"

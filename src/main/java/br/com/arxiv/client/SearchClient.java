@@ -1,8 +1,8 @@
-package br.com.puc.client;
+package br.com.arxiv.client;
 
-import br.com.puc.common.model.SearchRequest;
-import br.com.puc.common.model.SearchResponse;
-import br.com.puc.common.utils.JsonUtils;
+import br.com.arxiv.common.model.SearchRequest;
+import br.com.arxiv.common.model.SearchResponse;
+import br.com.arxiv.common.utils.JsonUtils;
 import java.io.*;
 import java.net.Socket;
 

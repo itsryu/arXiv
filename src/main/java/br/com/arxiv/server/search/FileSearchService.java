@@ -1,6 +1,6 @@
-package br.com.puc.server.search;
+package br.com.arxiv.server.search;
 
-import br.com.puc.common.model.Article;
+import br.com.arxiv.common.model.Article;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
@@ -14,7 +14,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class FileSearchService implements SearchService {
-
     private final List<Article> articles;
 
     public FileSearchService(String resourcePath) {

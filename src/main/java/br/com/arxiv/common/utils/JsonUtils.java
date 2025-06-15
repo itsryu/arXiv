@@ -1,4 +1,4 @@
-package br.com.puc.common.utils;
+package br.com.arxiv.common.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

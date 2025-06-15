@@ -1,4 +1,4 @@
-package br.com.puc.common.model;
+package br.com.arxiv.common.model;
 
 import com.google.gson.annotations.SerializedName;
 
