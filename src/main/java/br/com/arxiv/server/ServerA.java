@@ -21,7 +21,7 @@ public class ServerA {
     private final ExecutorService workerRequestPool;
     private final List<WorkerNode> workerNodes;
 
-    private record WorkerNode(String host, int port) {}
+    private record WorkerNode(String host, int port) { }
 
     public ServerA(int port) {
         this.port = port;
@@ -67,7 +67,6 @@ public class ServerA {
         }
     }
 
-    // MÉTODO ATUALIZADO: clientRequest() agora é dinâmico
     private void clientRequest(Socket clientSocket) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
