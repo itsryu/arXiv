@@ -27,33 +27,39 @@ public class ServerA {
             System.out.printf("Servidor A (Principal) escutando na porta %d...\n", port);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                clientHandlerPool.submit(() -> handleClientRequest(clientSocket));
+                clientHandlerPool.submit(() -> clientRequest(clientSocket));
             }
         } catch (IOException e) {
             System.err.printf("Erro ao iniciar o Servidor A: %s\n", e.getMessage());
         }
     }
 
-    private void handleClientRequest(Socket clientSocket) {
-        try (clientSocket;
-             BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-             PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true)) {
+    private void clientRequest(Socket clientSocket) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+             PrintWriter writer = new PrintWriter(clientSocket.getOutputStream(), true);
+             clientSocket) {
 
             String requestLine = reader.readLine();
             SearchRequest request = JsonUtils.fromJson(requestLine, SearchRequest.class);
             System.out.printf("Recebida busca por: '%s'\n", request.query());
 
-            Future<SearchResponse> futureB = workerRequestPool.submit(() -> forwardToWorker("localhost", 8082, request));
-            Future<SearchResponse> futureC = workerRequestPool.submit(() -> forwardToWorker("localhost", 8083, request));
+            List<Future<SearchResponse>> futures = List.of(
+                    workerRequestPool.submit(() -> forwardToWorker("localhost", 8082, request)),
+                    workerRequestPool.submit(() -> forwardToWorker("localhost", 8083, request))
+            );
 
-            List<Article> allResults = new ArrayList<>();
-            allResults.addAll(futureB.get().results());
-            allResults.addAll(futureC.get().results());
+            List<Article> allResults = futures.stream()
+                    .flatMap(future -> {
+                        try {
+                            return future.get().results().stream();
+                        } catch (InterruptedException | ExecutionException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).toList();
 
             writer.println(JsonUtils.toJson(new SearchResponse(allResults)));
             System.out.printf("Busca por '%s' finalizada. %d resultados enviados.\n", request.query(), allResults.size());
-
-        } catch (IOException | InterruptedException | ExecutionException e) {
+        } catch (IOException e) {
             System.err.println("Falha ao processar requisição do cliente: " + e.getMessage());
         }
     }

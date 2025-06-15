@@ -45,7 +45,6 @@ public class Client {
                     System.out.println(AnsiColors.BOLD + AnsiColors.CYAN + "Label: " + AnsiColors.RESET + highlightTerm(article.label(), query));
                     System.out.println(AnsiColors.FAINT + "----------------------------------------------------" + AnsiColors.RESET);
                 }
-
             } else if (response != null) {
                 System.out.println(AnsiColors.YELLOW + "Nenhum resultado encontrado." + AnsiColors.RESET);
             } else {

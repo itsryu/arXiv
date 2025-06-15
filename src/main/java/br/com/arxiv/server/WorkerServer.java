@@ -26,14 +26,14 @@ public class WorkerServer {
             System.out.printf("Servidor Worker escutando na porta %d...\n", port);
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                threadPool.submit(() -> handleRequest(clientSocket));
+                threadPool.submit(() -> request(clientSocket));
             }
         } catch (IOException e) {
             System.err.printf("Erro ao iniciar o servidor na porta %d: %s\n", port, e.getMessage());
         }
     }
 
-    private void handleRequest(Socket socket) {
+    private void request(Socket socket) {
         try (socket;
              BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter writer = new PrintWriter(socket.getOutputStream(), true)) {

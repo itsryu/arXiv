@@ -21,6 +21,77 @@ public class FileSearchService implements SearchService {
         System.out.printf("[%s] %d artigos carregados com sucesso.%n", resourcePath, articles != null ? articles.size() : 0);
     }
 
+    @Override
+    public List<Article> search(String query) {
+        if (query == null || query.isBlank() || articles == null) {
+            return Collections.emptyList();
+        }
+
+        final String lowerCaseQuery = query.toLowerCase();
+
+        return articles.parallelStream()
+                .filter(Objects::nonNull)
+                .filter(article -> {
+                    boolean foundInTitle = article.title() != null && kmpSearch(article.title().toLowerCase(), lowerCaseQuery);
+                    boolean foundInAbstract = !foundInTitle && article.abstractText() != null && kmpSearch(article.abstractText().toLowerCase(), lowerCaseQuery);
+
+                    return foundInTitle || foundInAbstract;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private boolean kmpSearch(String text, String pattern) {
+        int m = pattern.length();
+        int n = text.length();
+        if (m == 0) return true;
+        if (n == 0) return false;
+
+        int[] lps = computeLPSArray(pattern);
+        int i = 0;
+        int j = 0;
+
+        while (i < n) {
+            if (pattern.charAt(j) == text.charAt(i)) {
+                i++;
+                j++;
+            }
+            if (j == m) {
+                return true;
+            } else if (i < n && pattern.charAt(j) != text.charAt(i)) {
+                if (j != 0) {
+                    j = lps[j - 1];
+                } else {
+                    i++;
+                }
+            }
+        }
+        return false;
+    }
+
+    private int[] computeLPSArray(String pattern) {
+        int m = pattern.length();
+        int[] lps = new int[m];
+        int length = 0;
+        int i = 1;
+
+        while (i < m) {
+            if (pattern.charAt(i) == pattern.charAt(length)) {
+                length++;
+                lps[i] = length;
+                i++;
+            } else {
+                if (length != 0) {
+                    length = lps[length - 1];
+                } else {
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+
+        return lps;
+    }
+
     private List<Article> loadArticlesFromResources(String resourcePath) {
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
             if (is == null) {
@@ -36,19 +107,5 @@ public class FileSearchService implements SearchService {
             e.printStackTrace();
             return Collections.emptyList();
         }
-    }
-
-    @Override
-    public List<Article> search(String query) {
-        if (query == null || query.isBlank()) {
-            return Collections.emptyList();
-        }
-        final String lowerCaseQuery = query.toLowerCase();
-
-        return articles.parallelStream()
-                .filter(Objects::nonNull)
-                .filter(article -> (article.title() != null && article.title().toLowerCase().contains(lowerCaseQuery)) ||
-                        (article.abstractText() != null && article.abstractText().toLowerCase().contains(lowerCaseQuery)))
-                .collect(Collectors.toList());
     }
 }

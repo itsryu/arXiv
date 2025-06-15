@@ -25,7 +25,6 @@ public class SearchClient {
 
             String responseJson = in.readLine();
             return JsonUtils.fromJson(responseJson, SearchResponse.class);
-
         } catch (IOException e) {
             System.err.println("Erro de comunicação com o servidor: " + e.getMessage());
             return null;
