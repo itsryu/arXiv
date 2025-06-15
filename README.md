@@ -66,7 +66,7 @@
             <pre><code>mvn exec:java -Dexec.mainClass="br.com.arxiv.Client"</code></pre>
         </li>
     </ol>
-    <h4>Método 2: Execução Automatizada com Scripts (.bat - Apenas Windows)</h4>
+    <h4>Método 2: Execução Automatizada com Scripts (Apenas Windows)</h4>
     <p>Para conveniência no sistema operacional Windows, foram criados arquivos de lote (.bat) que automatizam a inicialização de cada componente.</p>
     <ul>
         <li><code>server_a.bat</code>: Inicia o Servidor A (Orquestrador).</li>
@@ -77,7 +77,7 @@
     </ul>
     <p>
         <strong>Como usar:</strong> Basta executar o arquivo <code>all.bat</code> para iniciar todos os
-        servidores e o cliente de uma só vez.
+        servidores e o cliente de uma só vez, ou executar na ordem correta para iniciar cada servidor.
     </p>
     <p>
         <strong>Aviso:</strong> A execução de scripts pode apresentar instabilidade dependendo do ambiente (por exemplo,
